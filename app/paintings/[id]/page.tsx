@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { paintings } from '@/lib/paintings-data';
 import AudioPlayer from '@/components/AudioPlayer';
@@ -71,10 +72,14 @@ export default async function PaintingPage({ params }: PaintingPageProps) {
           {/* Image Section */}
           <div className="relative">
             <div className="relative overflow-hidden bg-stone-200 dark:bg-zinc-900">
-              <img
+              <Image
                 src={painting.imageUrl}
                 alt={painting.title}
+                width={1200}
+                height={1500}
                 className="w-full"
+                style={{ height: 'auto' }}
+                priority
               />
             </div>
           </div>

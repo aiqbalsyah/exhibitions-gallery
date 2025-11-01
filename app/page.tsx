@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { paintings } from '@/lib/paintings-data';
 
 export default function Home() {
@@ -37,11 +38,14 @@ export default function Home() {
                 href={`/paintings/${painting.id}`}
                 className="group block break-inside-avoid"
               >
-                <div className="overflow-hidden bg-stone-200 dark:bg-zinc-900">
-                  <img
+                <div className="relative overflow-hidden bg-stone-200 dark:bg-zinc-900">
+                  <Image
                     src={painting.imageUrl}
                     alt={painting.title}
+                    width={800}
+                    height={1000}
                     className="w-full transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-90"
+                    style={{ height: 'auto' }}
                   />
                 </div>
 
@@ -78,7 +82,7 @@ export default function Home() {
       <footer className="mt-32 border-t border-stone-200 px-8 py-16 dark:border-zinc-900 md:px-16">
         <div className="mx-auto max-w-5xl">
           <p className="text-sm tracking-wide text-stone-500 dark:text-stone-500">
-            © {new Date().getFullYear()} — A digital gallery experience
+            © {new Date().getFullYear()} @aiqbalsyah
           </p>
         </div>
       </footer>
