@@ -98,9 +98,7 @@ export default async function PaintingPage({ params }: PaintingPageProps) {
       </main>
 
       {/* Floating Audio Player */}
-      <div className="fixed bottom-0 left-0 right-0 z-50">
-        <AudioPlayer soundUrl={painting.soundUrl} title={painting.title} />
-      </div>
+      <AudioPlayer soundUrl={painting.soundUrl} title={painting.title} />
       </div>
     </PageTransition>
   );
