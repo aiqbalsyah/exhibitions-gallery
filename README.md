@@ -1,31 +1,45 @@
 # Painting Exhibition Website
 
-An aesthetic, responsive web application for displaying paintings with immersive audio experiences. Each painting features its own ambient soundscape that can be played while viewing the artwork.
+A minimalist, aesthetic web application for displaying paintings with immersive audio experiences. Each painting features its own ambient soundscape that automatically plays while viewing the artwork.
 
-## Features
+## ✨ Features
 
-- **Beautiful Landing Page**: Gradient backgrounds with smooth animations
-- **Gallery View**: Responsive grid layout showcasing all paintings
-- **Individual Painting Pages**: Detailed view with description and audio player
-- **Audio Player**: Toggle-able sound player with volume control
-- **Fully Responsive**: Works seamlessly on desktop, tablet, and mobile devices
-- **Accessible**: Built with accessibility best practices
-- **Dark Mode Support**: Automatic dark mode based on system preferences
-- **Static Site Generation**: Fast page loads with pre-rendered content
+### Pages
+- **Hero Landing Page**: Minimalist design with large serif typography and smooth GSAP animations
+- **Gallery Page**: Pinterest-style masonry layout with scroll-triggered animations
+- **Painting Detail Pages**: Full-screen painting view with immersive audio experience
+- **Smooth Page Transitions**: Framer Motion animations between all pages
 
-## Tech Stack
+### Audio Player
+- **Smart Auto-hide**: Hides when scrolling down, shows when scrolling up or at page bottom
+- **Progress Indicator**: Real-time progress bar with animated pulsing dot
+- **Time Display**: Current time (elapsed) and remaining time (countdown)
+- **Auto-play**: Automatically starts playing when page loads
+- **Blur Effect**: Frosted glass design matching header aesthetic
+
+### Design
+- **Minimalist Aesthetic**: Stone/zinc color palette inspired by art galleries
+- **Typography**: Serif headings for elegance, sans-serif for readability
+- **GSAP Animations**: Smooth entrance and scroll-triggered animations
+- **Dark Mode Support**: Automatic based on system preferences
+- **Fully Responsive**: Optimized for mobile, tablet, and desktop
+- **Next.js Image Optimization**: Automatic WebP conversion and lazy loading
+
+## 🛠 Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: Tailwind CSS 4
 - **Language**: TypeScript
+- **Animations**: GSAP + ScrollTrigger, Framer Motion
 - **Fonts**: Geist Sans & Geist Mono
+- **Image Optimization**: Next.js Image component
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 20 or higher
-- npm or yarn
+- pnpm (recommended) or npm
 
 ### Installation
 
@@ -33,12 +47,16 @@ An aesthetic, responsive web application for displaying paintings with immersive
 2. Install dependencies:
 
 ```bash
+pnpm install
+# or
 npm install
 ```
 
 3. Run the development server:
 
 ```bash
+pnpm dev
+# or
 npm run dev
 ```
 
@@ -51,23 +69,25 @@ npm run dev
 Place your files in the appropriate folders:
 
 - **Painting Images**: `/public/paintings/`
-  - Recommended format: JPG or PNG
-  - Suggested dimensions: 800x1000px (4:5 aspect ratio)
+  - Supported formats: JPG, PNG, WebP
+  - Recommended dimensions: 800x1000px (4:5 aspect ratio)
+  - Next.js will automatically optimize images
 
 - **Audio Files**: `/public/sounds/`
   - Supported formats: MP3, WAV, OGG
   - Recommended: MP3 for best browser compatibility
+  - Keep files under 5MB for optimal loading
 
 Example structure:
 ```
 public/
 ├── paintings/
-│   ├── starry-night.jpg
-│   ├── mona-lisa.jpg
+│   ├── monalisa.png
+│   ├── stary-night.webp
 │   └── ...
 └── sounds/
-    ├── starry-night.mp3
-    ├── mona-lisa.mp3
+    ├── monalisa.mp3
+    ├── stary-night.mp3
     └── ...
 ```
 
@@ -78,13 +98,13 @@ Edit `/lib/paintings-data.ts` to add your paintings:
 ```typescript
 export const paintings: Painting[] = [
   {
-    id: '1', // Unique identifier
-    title: 'Your Painting Title',
-    description: 'A detailed description of the painting...',
-    imageUrl: '/paintings/your-image.jpg',
-    soundUrl: '/sounds/your-audio.mp3',
-    year: '2024', // Optional
-    artist: 'Artist Name', // Optional
+    id: '1', // Unique identifier (sequential)
+    title: 'Mona Lisa',
+    description: 'A detailed 500-character description of the painting...', // Aim for ~500 chars
+    imageUrl: '/paintings/monalisa.png',
+    soundUrl: '/sounds/monalisa.mp3',
+    year: '1503-1519', // Optional
+    artist: 'Leonardo da Vinci', // Optional
   },
   // Add more paintings...
 ];
@@ -93,105 +113,146 @@ export const paintings: Painting[] = [
 ### 3. Rebuild the Application
 
 ```bash
+pnpm build
+# or
 npm run build
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 exhibitions-previews/
 ├── app/
-│   ├── layout.tsx           # Root layout with metadata
-│   ├── page.tsx              # Home page with gallery
+│   ├── layout.tsx              # Root layout with metadata
+│   ├── page.tsx                # Hero/landing page
+│   ├── gallery/
+│   │   └── page.tsx            # Gallery page with masonry grid
 │   └── paintings/
 │       └── [id]/
-│           ├── page.tsx      # Dynamic painting detail page
-│           └── not-found.tsx # 404 page for invalid paintings
+│           ├── page.tsx        # Dynamic painting detail page
+│           └── not-found.tsx   # 404 page for invalid paintings
 ├── components/
-│   └── AudioPlayer.tsx       # Audio player component
+│   ├── AudioPlayer.tsx         # Floating audio player with progress
+│   ├── Footer.tsx              # Minimal footer component
+│   ├── GalleryGrid.tsx         # Pinterest-style masonry grid
+│   ├── Hero.tsx                # Hero section with GSAP animations
+│   ├── PageTransition.tsx      # Framer Motion page transitions
+│   └── PaintingHeader.tsx      # Painting page header with scroll title
 ├── lib/
-│   ├── types.ts              # TypeScript interfaces
-│   └── paintings-data.ts     # Paintings data array
+│   ├── types.ts                # TypeScript interfaces
+│   └── paintings-data.ts       # Paintings data array
 └── public/
-    ├── paintings/            # Painting images
-    └── sounds/               # Audio files
+    ├── paintings/              # Painting images
+    └── sounds/                 # Audio files
 ```
 
-## Customization
+## 🎨 Key Features Explained
 
-### Color Scheme
+### Audio Player Behavior
+- **Hidden by default** on page load
+- **Auto-hides** when scrolling down
+- **Shows when**:
+  - Scrolling up
+  - Reaching page bottom (within 100px)
+  - Audio finishes playing
+- **Time display**:
+  - Left: Current elapsed time (00:15)
+  - Right: Remaining time with countdown (-02:30)
+  - Shows 00:00 at end (no minus sign)
 
-The application uses Tailwind CSS. To customize colors, edit the classes in:
-- `app/page.tsx` (landing page)
-- `app/paintings/[id]/page.tsx` (detail pages)
-- `components/AudioPlayer.tsx` (audio player)
+### Animation System
+- **GSAP**: Hero text animations and scroll-triggered gallery items
+- **Framer Motion**: Page transitions with fade + slide effect
+- **Custom easing**: Professional cubic-bezier curves throughout
+
+### Navigation Flow
+```
+Home (Hero) → Gallery (Masonry Grid) → Painting Detail → Back to Gallery
+```
+
+## ⚙️ Customization
+
+### Color Palette
+The app uses a stone/zinc color scheme. To customize:
+- Edit Tailwind classes in component files
+- Primary colors: `stone-*` and `zinc-*`
+- Dark mode variants included throughout
 
 ### Typography
+- **Serif**: Used for large headings (Exhibition, painting titles)
+- **Sans-serif**: Used for body text and UI elements
+- Configure in `app/layout.tsx`
 
-Fonts are configured in `app/layout.tsx`. The default fonts are Geist Sans and Geist Mono.
+### Footer
+Update your credit in `components/Footer.tsx`:
+```tsx
+<p className="text-xs text-stone-500 dark:text-stone-500">
+  {new Date().getFullYear()}
+</p>
+<p className="text-xs text-stone-500 dark:text-stone-500">
+  @yourusername
+</p>
+```
 
-### Metadata
-
-Update SEO metadata in:
-- `app/layout.tsx` for global metadata
-- `app/paintings/[id]/page.tsx` for painting-specific metadata
-
-## Building for Production
+## 🚀 Building for Production
 
 ```bash
 # Build the application
-npm run build
+pnpm build
 
 # Start the production server
-npm start
+pnpm start
 ```
 
-## Deployment
+## 📦 Deployment
 
-This application is optimized for deployment on:
-- Vercel (recommended for Next.js)
+Optimized for:
+- **Vercel** (recommended - zero config)
 - Netlify
 - Any static hosting service
 
-For Vercel deployment:
 ```bash
-npm install -g vercel
+# Deploy to Vercel
 vercel
 ```
 
-## Accessibility Features
+## ♿ Accessibility
 
 - Semantic HTML structure
-- ARIA labels for interactive elements
+- ARIA labels on all interactive elements
 - Keyboard navigation support
 - Screen reader friendly
-- Color contrast compliance
+- WCAG color contrast compliance
 - Focus indicators
+- Audio player controls accessible via keyboard
 
-## Browser Support
+## 🌐 Browser Support
 
-- Chrome (latest)
+- Chrome/Edge (latest)
 - Firefox (latest)
 - Safari (latest)
-- Edge (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
-## Responsive Breakpoints
+## 📱 Responsive Design
 
-- Mobile: < 640px
-- Tablet: 640px - 1024px
-- Desktop: > 1024px
+- **Mobile**: < 640px (1 column gallery)
+- **Tablet**: 640px - 1024px (2 columns gallery)
+- **Desktop**: > 1024px (3 columns gallery)
+- Max content width: 1024px (max-w-5xl)
 
-## Audio Recommendations
+## 🎵 Audio Best Practices
 
-For the best audio experience:
-- Use ambient, non-intrusive soundscapes
-- Keep file sizes reasonable (2-5MB recommended)
-- Normalize audio levels across all tracks
-- Consider looping capability for longer viewing sessions
+- Use **ambient, non-intrusive soundscapes**
+- Keep files **under 5MB** for fast loading
+- **MP3 format** for best browser compatibility
+- **Normalize audio levels** across all tracks
+- Volume fixed at **100%** (no user control)
 
-## Design Inspiration
+## 💡 Design Inspiration
 
-Design inspired by:
 - [Splaaashes by LS Graphics](https://products.ls.graphics/splaaashes/)
 - [Isabel Moranta Portfolio](https://www.isabelmoranta.com/)
+
+## 👤 Credits
+
+Created by [@aiqbalsyah](https://github.com/aiqbalsyah)
