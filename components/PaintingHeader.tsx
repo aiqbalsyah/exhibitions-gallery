@@ -27,11 +27,11 @@ export default function PaintingHeader({ painting, previousPainting, nextPaintin
     <header className="fixed top-0 z-40 w-full border-b border-stone-200/50 bg-stone-50/80 backdrop-blur-md dark:border-zinc-900/50 dark:bg-zinc-950/80">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-6 md:px-16">
         <Link
-          href="/"
+          href="/gallery"
           className="group flex items-center gap-2 text-sm uppercase tracking-widest text-stone-900 dark:text-stone-50"
         >
           <span className="transition-transform group-hover:-translate-x-1">←</span>
-          Index
+          Gallery
         </Link>
 
         {/* Title and Artist - Shows on scroll */}

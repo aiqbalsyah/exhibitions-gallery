@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { paintings } from '@/lib/paintings-data';
 import AudioPlayer from '@/components/AudioPlayer';
 import PaintingHeader from '@/components/PaintingHeader';
+import PageTransition from '@/components/PageTransition';
 
 interface PaintingPageProps {
   params: Promise<{ id: string }>;
@@ -44,16 +45,17 @@ export default async function PaintingPage({ params }: PaintingPageProps) {
   const nextPainting = currentIndex < paintings.length - 1 ? paintings[currentIndex + 1] : null;
 
   return (
-    <div className="min-h-screen bg-stone-50 pb-32 dark:bg-zinc-950">
-      {/* Header */}
-      <PaintingHeader
-        painting={painting}
-        previousPainting={previousPainting}
-        nextPainting={nextPainting}
-      />
+    <PageTransition>
+      <div className="min-h-screen bg-stone-50 pb-32 dark:bg-zinc-950">
+        {/* Header */}
+        <PaintingHeader
+          painting={painting}
+          previousPainting={previousPainting}
+          nextPainting={nextPainting}
+        />
 
       {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-8 pt-32 md:px-16">
+      <main className="mx-auto max-w-5xl px-8 pt-32 pb-24 md:px-16">
         <div className="mb-16">
           <p className="mb-4 text-sm uppercase tracking-widest text-stone-500 dark:text-stone-500">
             {painting.year}
@@ -99,6 +101,7 @@ export default async function PaintingPage({ params }: PaintingPageProps) {
       <div className="fixed bottom-0 left-0 right-0 z-50">
         <AudioPlayer soundUrl={painting.soundUrl} title={painting.title} />
       </div>
-    </div>
+      </div>
+    </PageTransition>
   );
 }
