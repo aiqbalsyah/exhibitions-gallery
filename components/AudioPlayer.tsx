@@ -9,7 +9,7 @@ interface AudioPlayerProps {
 
 export default function AudioPlayer({ soundUrl, title }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -26,7 +26,10 @@ export default function AudioPlayer({ soundUrl, title }: AudioPlayerProps) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleEnded = () => setIsPlaying(false);
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setIsVisible(true); // Show player when audio ends
+    };
     const handleTimeUpdate = () => {
       setCurrentTime(audio.currentTime);
       // Also update duration in case it wasn't set yet
@@ -79,8 +82,16 @@ export default function AudioPlayer({ soundUrl, title }: AudioPlayerProps) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      // Check if near bottom of page (within 100px)
+      const isNearBottom = windowHeight + currentScrollY >= documentHeight - 100;
+
+      if (isNearBottom) {
+        // Always show player at bottom
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling down - hide player
         setIsVisible(false);
       } else {
