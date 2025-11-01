@@ -50,19 +50,21 @@ export default function PaintingHeader({ painting, previousPainting, nextPaintin
           {previousPainting && (
             <Link
               href={`/paintings/${previousPainting.id}`}
-              className="text-sm uppercase tracking-widest text-stone-500 transition-colors hover:text-stone-900 dark:text-stone-500 dark:hover:text-stone-50"
-              aria-label="Previous painting"
+              className="group flex items-center gap-2 text-sm text-stone-500 transition-colors hover:text-stone-900 dark:text-stone-500 dark:hover:text-stone-50"
+              aria-label={`Previous: ${previousPainting.title}`}
             >
-              Prev
+              <span className="transition-transform group-hover:-translate-x-1">←</span>
+              <span className="hidden font-serif md:inline">{previousPainting.title}</span>
             </Link>
           )}
           {nextPainting && (
             <Link
               href={`/paintings/${nextPainting.id}`}
-              className="text-sm uppercase tracking-widest text-stone-500 transition-colors hover:text-stone-900 dark:text-stone-500 dark:hover:text-stone-50"
-              aria-label="Next painting"
+              className="group flex items-center gap-2 text-sm text-stone-500 transition-colors hover:text-stone-900 dark:text-stone-500 dark:hover:text-stone-50"
+              aria-label={`Next: ${nextPainting.title}`}
             >
-              Next
+              <span className="hidden font-serif md:inline">{nextPainting.title}</span>
+              <span className="transition-transform group-hover:translate-x-1">→</span>
             </Link>
           )}
         </div>
